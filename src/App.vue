@@ -3,7 +3,10 @@
     <HelloWorld
       @del="del"
       @addCondRela="addCondRela"
+      @removeRelationList="removeRelationList"
+      @changeAndOrDfs="(type) =>  changeAndOrDfs(relationList, type)"
       :relationList="relationList"
+      :andOr.sync="andOr"
     />
     <svg width="388" height="100%" class="real-line">
       <path
@@ -57,6 +60,9 @@ export default {
     }
   },
   methods: {
+    removeRelationList() {
+      this.relationList = []
+    },
     getY(arr) {
       const [ a ] = arr;
       if (a.child?.length) {
@@ -127,6 +133,14 @@ export default {
       })
       return path;
     },
+    changeAndOrDfs(arr, andOr) {
+      arr.forEach((ele) => {
+        if (ele.child) {
+           ele.andOr = !andOr;
+           this.changeAndOrDfs(ele.child, !andOr);
+        }
+      })
+    },
     dfs(arr, count) {
       arr.forEach((ele) => {
         if (ele.child?.length) {
@@ -180,8 +194,10 @@ export default {
 
       return count
     },
-    addCondRela(type) {
-      this.relationList.push(type === "condition" ? { value: ''} : { child: [] });
+    addCondRela(type, andOr) {
+      console.log(1, andOr);
+
+      this.relationList.push(type === "condition" ? { value: ''} : { child: [], andOr });
     },
     del(index) {
       this.relationList.splice(index, 1);
@@ -190,6 +206,7 @@ export default {
   data() {
     return {
       relationList: [],
+      andOr: true
     };
   },
 };

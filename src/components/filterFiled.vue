@@ -1,5 +1,6 @@
 <template>
-  <div class="filed" @mouseover="showDel = true" @mouseleave="showDel = false">
+  <div>
+    <div class="filed" @mouseover="showDel = true" @mouseleave="showDel = false">
     <span class="filed-title">筛选字段</span>
 
     <el-dropdown trigger="click" :hide-on-click="false">
@@ -44,7 +45,7 @@
         </el-option>
       </el-select>
       <span class="filed-title">固定值</span>
-      <!-- <template>
+      <template v-if="filterType === '选项1'">
         <el-select class="w100" v-model="fixedValue" placeholder="默认条件">
           <el-option
             v-for="item in operators"
@@ -60,19 +61,27 @@
           controls-position="right"
         ></el-input-number>
         <div class="bottom-line"></div>
-      </template> -->
+      </template>
 
       <el-dropdown
+        v-else
         trigger="click"
         ref="deElDropdownMenuFixed"
         :hide-on-click="false"
       >
-        <el-input v-model="input" size="mini" @input="cancel" clearable>
+        <el-input
+          v-model="fixValueList"
+          size="mini"
+          @input="cancelfixValue"
+          clearable
+          @clear="clearAll"
+        >
         </el-input>
         <el-dropdown-menu class="de-el-dropdown-menu-fixed" slot="dropdown">
           <div class="de-panel clearfix">
             <div class="mod-left">
-              <el-input placeholder="输入关键字" v-model="input2"> </el-input>
+              <el-input placeholder="输入关键字" v-model="filterFiled">
+              </el-input>
               <ul
                 class="infinite-list autochecker-list"
                 v-infinite-scroll="load"
@@ -80,7 +89,7 @@
               >
                 <li
                   :key="i"
-                  v-for="i in count"
+                  v-for="i in checkListWithFilter"
                   class="infinite-list-item"
                   @click="checkItem(i)"
                 >
@@ -92,7 +101,7 @@
                   <span>+</span>
                 </li>
               </ul>
-              <button class="select-all">全 选</button>
+              <button class="select-all" @click="selectAll">全 选</button>
             </div>
             <div class="mod-left right">
               <div class="right-top clearfix">
@@ -111,10 +120,18 @@
                           v-model="textareaValue"
                         ></textarea>
                         <div class="text-area-btn">
-                          <button type="button" @click="showTextArea = false" class="btn left">
+                          <button
+                            type="button"
+                            @click="showTextArea = false"
+                            class="btn left"
+                          >
                             <span>关 闭</span>
                           </button>
-                          <button type="button" @click="addFileds" class="btn rigth">
+                          <button
+                            type="button"
+                            @click="addFileds"
+                            class="btn rigth"
+                          >
                             <span>添 加</span>
                           </button>
                         </div>
@@ -130,23 +147,32 @@
                   </el-dropdown-menu> -->
               </div>
               <ul class="infinite-list autochecker-list" style="overflow: auto">
-                <li :key="i" v-for="(i, idx) in checklist" class="infinite-list-item">
+                <li
+                  :key="i"
+                  v-for="(i, idx) in checklist"
+                  class="infinite-list-item"
+                >
                   <el-tooltip
                     class="item"
                     effect="light"
                     :content="i"
                     placement="top"
+                    :open-delay="1000"
                   >
                     <label>{{ i }}</label>
                   </el-tooltip>
-                  <i class="el-icon-delete" @click="delChecks(idx)" style="opacity: 1"></i>
+                  <i
+                    class="el-icon-delete"
+                    @click="delChecks(idx)"
+                    style="opacity: 1"
+                  ></i>
                 </li>
               </ul>
               <div class="right-menu-foot">
                 <div class="footer-left">已添加 {{ checklist.length }}</div>
                 <div class="confirm-btn">确 定</div>
                 <div class="footer-right">
-                  <i class="el-icon-delete"></i>
+                  <i class="el-icon-delete" @click="clearAll"></i>
                 </div>
               </div>
             </div>
@@ -159,6 +185,7 @@
       class="el-icon-delete font12"
       @click="$emit('del', index)"
     ></i>
+  </div>
   </div>
 </template>
 
@@ -183,7 +210,8 @@ export default {
       input2: "",
       activeName: "",
       num: "",
-      count: 10,
+      filedlist: ["123", "234", "456"],
+      filterFiled: "",
       options: [
         {
           value: "选项1",
@@ -225,7 +253,8 @@ export default {
       fixedValue: "",
       keydownCanceled: false,
       checklist: [],
-      textareaValue: '',
+      fixValueList: "",
+      textareaValue: "",
       dimensions: [
         {
           type: "d",
@@ -237,6 +266,20 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    checkListWithFilter() {
+      if (!this.filterFiled) return [...this.filedlist];
+      return this.filedlist.filter((ele) => ele.includes(this.filterFiled));
+    },
+    checkResult() {
+      return this.checklist.join(",");
+    },
+  },
+  watch: {
+    checkResult() {
+      this.cancelfixValue();
+    },
   },
   methods: {
     cancelKeyDow() {
@@ -251,6 +294,10 @@ export default {
     cancel() {
       this.input = this.activeName || "";
     },
+    cancelfixValue() {
+      console.log(1, 2);
+      this.fixValueList = this.checkResult || "";
+    },
     delChecks(idx) {
       this.checklist.splice(idx, 1);
     },
@@ -259,17 +306,32 @@ export default {
       this.input = this.activeName;
     },
     load() {
-      this.count += 2;
+      this.filedlist.push(+new Date() + "");
+    },
+    clearAll() {
+      // const hide = this.$refs.deElDropdownMenuFixed.hide;
+      // this.$refs.deElDropdownMenuFixed.hide = () => {}
+      // setTimeout(() => {
+      //   this.$refs.deElDropdownMenuFixed.hide = hide
+      // }, 500)
+      this.checklist = [];
+    },
+    selectAll() {
+      this.checkListWithFilter.forEach((ele) => {
+        if (!this.checklist.includes(ele)) {
+          this.checklist.push(ele);
+        }
+      });
     },
     addFileds() {
-      const list = this.textareaValue.split('\n').reduce((pre, next) => {
+      const list = this.textareaValue.split("\n").reduce((pre, next) => {
         const str = next.trim();
         if (!str) return pre;
-        pre.add(str)
-        return pre
-      }  , new Set([]))
+        pre.add(str);
+        return pre;
+      }, new Set([]));
       if (list.size) {
-        this.checklist = [...this.checklist, ...list]
+        this.checklist = [...this.checklist, ...list];
       }
       this.showTextArea = false;
     },
@@ -299,7 +361,7 @@ export default {
   display: flex;
   align-items: center;
   margin-left: 20px;
-  width: auto;
+  min-width: 200px;
   justify-content: left;
   position: relative;
 
