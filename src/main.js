@@ -3,7 +3,8 @@ import Vue from 'vue'
 // import App from './vueGridLayout/coustomDrag.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './customComponent/confirm.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './vueGridLayout'
-import App from './App'
+// import App from './App'
+import App from './gridTable/testCase.vue'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
