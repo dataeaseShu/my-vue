@@ -1,0 +1,51 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+    <body>
+        123
+        <iframe
+        id="child"
+            src="./ifram.html"
+            frameborder="0"></iframe>
+    </body>
+    <script>
+        const ifram = document.querySelector('iframe');
+// function ui()  {
+//     console.log(1,ifram, ifram.contentWindow)
+ 
+// var iframe = ifram;
+ 
+ifram.onload = function() {
+   // 向domain2发送跨域数据
+   ifram.contentWindow.postMessage('来自domain1的消息', '*');
+};
+ 
+// // 接受domain2返回数据
+// window.addEventListener('message',(e) => {
+//     console.log(e.data);
+// }, false);
+//     // ifram.contentWindow.addEventListener('click', ko)
+// }
+
+// // window.addEventListener('message', (e) => {
+// //      console.log(e.data)
+// // })
+// function ko(e) {
+//     console.log(123, e.currentTarget, e.target);
+// }
+// ui()
+
+window.addEventListener('message', function(event) {
+            console.log(123333)
+        }, false);
+    </script>
+
+    </html>

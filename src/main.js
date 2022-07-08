@@ -7,10 +7,11 @@ import Vue from 'vue'
 import App from './gridTable/testCase.vue'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-
+console.log(1, App)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
-
+import a from 'file-loader?enforce=pre!./obt.kl'
+console.log(2, a);
 new Vue({
   render: h => h(App),
 }).$mount('#app')
