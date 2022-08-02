@@ -1,0 +1,8 @@
+/* 改变主题色变量为你想要的颜色 */
+$--color-primary: #bf0008;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+/*  引用路径为你的主题样式包的 index.css 文件的相对路径 */
+@import "~element-ui/packages/theme-chalk/src/index";

@@ -6,6 +6,11 @@ module.exports = defineConfig({
     resolveLoader: {
       modules: [path.resolve(__dirname, './src/customLoader')],
     },
+    resolve: {
+      alias: {
+        '@': path.resolve('src')
+      }
+    },
   },
   /* svg 相关配置 */
   chainWebpack: config => {
