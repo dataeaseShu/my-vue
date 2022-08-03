@@ -2,7 +2,7 @@ import Vue from 'vue'
 // import App from './vueGridLayout/drag.vue' // coustomDrag
 // import App from './vueGridLayout/coustomDrag.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './customComponent/drawer.vue' // coustomDrag src/customComponent/messages.vue
-import App from './styleTest/index.vue' // coustomDrag src/customComponent/messages.vue
+import App from './customCom/index.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './vueGridLayout'
 // import App from './App'
 // import App from './gridTable/testCase.vue'
