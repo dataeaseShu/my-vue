@@ -11,6 +11,18 @@ module.exports = defineConfig({
         '@': path.resolve('src')
       }
     },
+    devServer: {
+      proxy: {
+        '/dev-api': {
+          target: 'http://api.fanyi.baidu.com/api/trans/vip/translate', // 配置要替换的后台接口地址
+          changOrigin: true, // 配置允许改变Origin
+          ws: true, // proxy websockets
+          pathRewrite: {
+            '^/dev-api': '/'
+          }
+        },
+      }
+    }
   },
   /* svg 相关配置 */
   chainWebpack: config => {

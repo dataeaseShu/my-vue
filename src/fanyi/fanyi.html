@@ -1,0 +1,76 @@
+<!doctype html>
+
+<head>
+    <meta charset="utf-8" />
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-input style="color: #000; font-weight: 600; font-size: 20px;" type="textarea" :rows="5" v-model="textarea" placeholder="请输入需要翻译的内容"></el-input>
+        <el-button style="margin: 20px 0;" type="primary" @click="goTranslate">翻译</el-button>
+        <el-button style="margin: 20px 0;" type="primary" @click="reset">重置</el-button>
+        <el-input style="color: #000; font-weight: 600; font-size: 20px;" readonly type="textarea" :rows="5" v-model="result" placeholder="翻译结果"></el-input>
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="./md5.js"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    textarea: '',
+                    result: ''
+                }
+            },
+            mounted: function () {
+                // this.translate()
+            },
+            methods: {
+                //  百度翻译入口
+                translate: function (query) {
+                    var appid = ''(这里需要填写自己在百度翻译注册API获取的appid)
+                    var key = ''(这里需要填写自己在百度翻译注册API获取的key)
+                    var salt = (new Date).getTime()
+                    var query = query
+                    // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
+                    var from = 'auto'
+                    var to = 'zh'
+                    var str1 = appid + query + salt + key
+                    var sign = MD5(str1)
+                    $.ajax({
+                        url: 'http://api.fanyi.baidu.com/api/trans/vip/translate',
+                        type: 'get',
+                        dataType: 'jsonp',
+                        data: {
+                            q: query,
+                            appid: appid,
+                            salt: salt,
+                            from: from,
+                            to: to,
+                            sign: sign
+                        },
+                        success: (data) => {
+                            this.result = data.trans_result[0].dst
+                            
+                        }
+                    });
+                },
+                goTranslate : function() {
+                    if (this.textarea.length === 0) return
+                    this.translate(this.textarea)
+                },
+                reset: function (){
+                    this.textarea = '',
+                    this.result = ''
+                }
+            }
+        })
+
+    </script>
+</body>
