@@ -8,6 +8,31 @@ import axios from "axios";
 import md5 from 'md5'
 export default {
   mounted() {
+    let zhArr = splitFunc(z);
+    let twArr = splitFunc(t);
+    let enArr = splitFunc(e);
+    function change(str) {
+      let arr = str.split(" ");
+      let newArr = arr.map((ite, idx) => {
+        console.log(1, ite);
+        return ite.toLowerCase();
+      });
+      return newArr.slice(-2).join("_");
+    }
+
+    function splitFunc(en) {
+      return en.split("\n").filter((ele) => ele);
+    }
+    let enObj = {};
+    let zhObj = {};
+    let twObj = {};
+    let keyList = enArr.map((ele, index) => {
+      let key = change(ele);
+      enObj[key] = ele;
+      zhObj[key] = zhArr[index];
+      twObj[key] = twArr[index];
+      return key;
+    });
     const salt = Math.random();
     const q = "apple";
     const from = "en";

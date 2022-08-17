@@ -16,10 +16,12 @@
 
 <script>
 import deBtn from "./deBtn.vue";
+import { getColorWithPercentage } from './cplorCacu'
 export default {
   components: { deBtn },
   mounted() {
-    this.openMessageSuccess()
+    this.openMessageSuccess();
+    console.log(1, getColorWithPercentage('#f54a45', '#ffffff', 15))
   },
   methods: {
     logOutput() {
