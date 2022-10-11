@@ -9,6 +9,7 @@
 import tinymce from "tinymce/tinymce";
 import Editor from "@tinymce/tinymce-vue";
 import "tinymce/themes/silver/theme";
+const a = '123'
 export default {
   components: { Editor },
   data() {
