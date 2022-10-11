@@ -20,7 +20,7 @@ export default {
         },
         dragover(e) {
            console.log(123);
-           console.log('activeEle',  e.dataTransfer.getData('activeEle'));;
+           console.log('activeEle',  e.dataTransfer.getData('activeEle'));
         }
     }
 
