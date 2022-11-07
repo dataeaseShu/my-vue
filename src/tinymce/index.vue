@@ -11,6 +11,7 @@ import Editor from "@tinymce/tinymce-vue";
 import "tinymce/themes/silver/theme";
 const a = '123'
 const b = '123'
+const c = '123'
 export default {
   components: { Editor },
   data() {
