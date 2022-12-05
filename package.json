@@ -13,6 +13,7 @@
     "**/*.vue": "eslint --ext .vue"
   },
   "dependencies": {
+    "@antv/g2plot": "^2.4.22",
     "@antv/l7": "^2.9.19",
     "@antv/l7-maps": "^2.9.19",
     "@tinymce/tinymce-vue": "^3.0.1",
@@ -22,6 +23,7 @@
     "html2canvas": "^1.4.1",
     "js-md5": "^0.7.3",
     "md5": "^2.3.0",
+    "sortablejs": "^1.15.0",
     "svg-sprite-loader": "^6.0.11",
     "tinymce": "^5.1.0",
     "useless-files-webpack-plugin": "^1.0.1",
