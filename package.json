@@ -19,6 +19,7 @@
     "@tinymce/tinymce-vue": "^3.0.1",
     "blueimp-md5": "^2.19.0",
     "core-js": "^3.8.3",
+    "echarts": "^5.4.1",
     "element-ui": "^2.15.9",
     "html2canvas": "^1.4.1",
     "js-md5": "^0.7.3",
