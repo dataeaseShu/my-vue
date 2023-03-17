@@ -1,0 +1,121 @@
+// {
+//     "scope": "https://uri.paypal.com/services/checkout/one-click-with-merchant-issued-token https://uri.paypal.com/services/invoicing https://uri.paypal.com/services/disputes/read-buyer https://uri.paypal.com/services/payments/realtimepayment https://uri.paypal.com/services/disputes/update-seller https://uri.paypal.com/services/payments/payment/authcapture openid https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/payments/refund https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/billing-agreements https://api.paypal.com/v1/payments/.* https://uri.paypal.com/payments/payouts https://api.paypal.com/v1/vault/credit-card/.* https://uri.paypal.com/services/shipping/trackers/readwrite https://uri.paypal.com/services/subscriptions https://uri.paypal.com/services/applications/webhooks",
+//     "access_token": "A21AAIQL0UruvFmyuokxNty8ClbJufbNMj40DJWmQsJlg6s6HJZ157lSrK4NpBjKD4kjpfOUNCSzqjyukIzxOo7n9JB2XzkVQ",
+//     "token_type": "Bearer",
+//     "app_id": "APP-80W284485P519543T",
+//     "expires_in": 32400,
+//     "nonce": "2023-02-15T02:55:45ZsYVHCJ2CCktGLscEGmdnqsM-RPWIfQd64bTtRC8YlWI"
+// }
+
+
+curl -v -X POST https://api-m.sandbox.paypal.com/v2/checkout/orders \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer A21AAIqP_X6i5kX2YG5wI23nLHfz46wNkjdLpPnhrqHAp53BewOw4hBsFF8U4YU_GgyP1yyIFEduF-XARKZ2C2rfVREtDXWFw" \
+-H "PayPal-Request-Id: 7b92603e-77ed-4896-8e78-5dea2050476a" \
+-d '{
+  "intent": "CAPTURE",
+  "purchase_units": [
+    {
+      "reference_id": "d9f80740-38f0-11e8-b467-0ed5f89f718b",
+      "amount": {
+        "currency_code": "USD",
+        "value": "100.00"
+      }
+    }
+  ],
+  "payment_source": {
+    "paypal": {
+      "experience_context": {
+        "payment_method_preference": "IMMEDIATE_PAYMENT_REQUIRED",
+        "payment_method_selected": "PAYPAL",
+        "brand_name": "EXAMPLE INC",
+        "locale": "en-US",
+        "landing_page": "LOGIN",
+        "shipping_preference": "SET_PROVIDED_ADDRESS",
+        "user_action": "PAY_NOW",
+        "return_url": "https://example.com/returnUrl",
+        "cancel_url": "https://example.com/cancelUrl"
+      }
+    }
+  }
+}'
+
+curl -v -X POST https://api-m.sandbox.paypal.com/v2/checkout/orders \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer A21AAJXpH0xhrQms8tDGShmvNbDH7Y96zN5M5E0rIF9Uopl3jqBO03SUEVqc50P4uMkVLFvU9jyo3hEG3-f6s4pGyYT5ICsnA" \
+-H "PayPal-Request-Id: 7b92603e-77ed-4896-8e78-5dea2050476a" \
+-d '{
+  "intent": "CAPTURE",
+  "purchase_units": [
+    {
+      "reference_id": "d9f80740-38f0-11e8-b467-0ed5f89f718b",
+      "amount": {
+        "currency_code": "USD",
+        "value": "100.00"
+      }
+    }
+  ],
+  "payment_source": {
+    "paypal": {
+      "experience_context": {
+        "payment_method_preference": "IMMEDIATE_PAYMENT_REQUIRED",
+        "payment_method_selected": "PAYPAL",
+        "brand_name": "EXAMPLE INC",
+        "locale": "en-US",
+        "landing_page": "LOGIN",
+        "shipping_preference": "SET_PROVIDED_ADDRESS",
+        "user_action": "PAY_NOW",
+        "return_url": "https://example.com/returnUrl",
+        "cancel_url": "https://example.com/cancelUrl"
+      }
+    }
+  }
+}'
+
+
+<div id="smart-button-container">
+      <div style="text-align: center;">
+        <div id="paypal-button-container"></div>
+      </div>
+    </div>
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>
+  <script>
+    function initPayPalButton() {
+      paypal.Buttons({
+        style: {
+          shape: 'rect',
+          color: 'silver',
+          layout: 'horizontal',
+          label: 'buynow',
+          
+        },
+
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{"amount":{"currency_code":"USD","value":1}}]
+          });
+        },
+
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(orderData) {
+            
+            // Full available details
+            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+
+            // Show a success message within this page, e.g.
+            const element = document.getElementById('paypal-button-container');
+            element.innerHTML = '';
+            element.innerHTML = '<h3>Thank you for your payment!</h3>';
+
+            // Or go to another URL:  actions.redirect('thank_you.html');
+            
+          });
+        },
+
+        onError: function(err) {
+          console.log(err);
+        }
+      }).render('#paypal-button-container');
+    }
+    initPayPalButton();
+  </script>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .StripeElement {
+        box-sizing: border-box;
+        height: 3.0769rem;
+        padding: 0.7692rem 0.9231rem;
+        border: 0.0769rem solid transparent;
+        border-radius: 0.3077rem;
+        background-color: white;
+        box-shadow: 0 0.0769rem 0.2308rem 0 #e6ebf1;
+        -webkit-transition: box-shadow 150ms ease;
+        transition: box-shadow 150ms ease;
+    }
+
+    .StripeElement--focus {
+        box-shadow: 0 0.0769rem 0.2308rem 0 #cfd7df;
+    }
+
+    .StripeElement--invalid {
+        border-color: #fa755a;
+    }
+
+    .StripeElement--webkit-autofill {
+        background-color: #fefde5 !important;
+    }
+</style>
+
+<body>
+    <form action="/charge" method="post" id="payment-form">
+        <div class="form-row">
+            <div id="card-element">
+            </div>
+            <div id="card-errors" role="alert"></div>
+        </div>
+    </form>
+    <button class="payBtn">payBtn</button>
+</body>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    //     let stripe = Stripe(stripKey); //测试环境秘钥   
+    // let elements = stripe.elements({        //设置默认显示语种   en 英文 cn 中文 auto 自动获取语种
+    //     locale: 'en'
+    // });
+
+    var stripe = Stripe('pk_test_51Md2uRHWRyNhVrjih0h7yDptYltXRtH1rFubBPLn4bAWpiVyA9YVU4hFWxSPieB3SQI4p4lUZfZ4jUdMuLtupN7E002yXrvWvN');
+    var elements = stripe.elements({
+        // clientSecret: 'CLIENT_SECRET',
+        locale: 'en'
+    });
+    var style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: '#aab7c4'
+            }
+
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+    };
+
+    // Create an instance of the card Element.
+    var card = elements.create('card', { style: style });
+
+    // Add an instance of the card Element into the `card-element` <div>.
+    card.mount('#card-element');
+
+    // Handle real-time validation errors from the card Element.
+    card.addEventListener('change', function (event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+    // pi_3Md3k7HWRyNhVrji1rspRwhM
+
+    //client_secret pi_3Md3k7HWRyNhVrji1rspRwhM_secret_Cg3wxUbE7FRiXs0j45QpjN8KK
+
+    document.querySelector('.payBtn').addEventListener('click', stripePay)
+    function createOrder() {
+        stripe
+            .createPaymentMethod({
+                type: 'card',
+                card,
+                billing_details: {
+                    name: 'Jenny Rosen',
+                },
+            })
+            .then(function (result) {
+                console.log('result.paymentMethod.id', result, result.paymentMethod.id);
+                // 拿到Payment_method id后，请求后端接口 返回PaymentIntent id  拿到PaymentIntent id去请求后端接口扣款，完成交易
+                // 
+                // stripe
+                //     .handleCardAction('pi_3Md3k7HWRyNhVrji1rspRwhM_secret_Cg3wxUbE7FRiXs0j45QpjN8KK')
+                //     .then(function (res) {
+                //         // Handle result.error or result.paymentIntent
+                //         console.log('res', res);
+                //     });
+            });
+    }
+
+    function stripePay(event) {
+        event.preventDefault();
+        stripe.createToken(card).then(function (result) {
+            console.log('result', result);
+            if (result.error) {
+                // Inform the user if there was an error.
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                // Send the token to your server.
+                stripeTokenHandler(result.token);
+            }
+        });
+    }
+    function stripeTokenHandler(token, _this) {
+
+        // Insert the token ID into the form so it gets submitted to the server
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+        shopCarPay()
+    }
+    // 购物车支付流程
+    function shopCarPay() {
+        stripe.confirmCardPayment('pi_3Md4LBHWRyNhVrji0favarbO_secret_1UI2S0qPhupBz8sk50lkeBLiQ', { payment_method: { card: card } }).then(function (result) {
+            //此处data.client_secret变量为生成订单后 后端返回给前端的秘钥  将这个秘钥返回给stripe去做校验
+            console.log('result.paymentIntent', result.paymentIntent);
+            if (result.paymentIntent && result.paymentIntent.status == "succeeded") {
+                //支付成功的逻辑操作
+            }
+        })
+    }
+
+
+
+
+
+</script>
+
+</html>

@@ -2,11 +2,11 @@ import Vue from 'vue'
 // import App from './vueGridLayout/drag.vue' // coustomDrag
 // import App from './vueGridLayout/coustomDrag.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './customComponent/drawer.vue' // coustomDrag src/customComponent/messages.vue
-import App from './consanguinity/index.vue' // coustomDrag src/customComponent/messages.vue
+// import App from './consanguinity/index.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './vueGridLayout/dragEvent.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './fanyi/index.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './upload/cardPlugin.vue' // coustomDrag src/customComponent/messages.vue
-// import App from './antv/L7.vue' // coustomDrag src/customComponent/messages.vue
+import App from './antv/L7.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './vueGridLayout'
 // import App from './App'
 // import App from './gridTable/testCase.vue'
@@ -19,6 +19,18 @@ import './assets/elementUi.scss'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 // import a from 'file-loader?enforce=pre!./obt.kl'
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+
+
+
+// export function init(html) {
+//     new Vue({
+//         render: h => h(App),
+//     }).$mount(html)
+// }
+
+
+window.webpackLibrary = (html) => {
+        new Vue({
+            render: h => h(App),
+        }).$mount(html)
+    }

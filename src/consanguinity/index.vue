@@ -18,7 +18,7 @@ export default {
 
       console.log('ctx.measureText(txt).width', ctx.measureText(txt).width)
       // let b = ctx.measureText(txt).width
-      return
+      // return
       const that = this
       var option = {
         xAxis: {
@@ -123,59 +123,61 @@ export default {
               [15, 39, 58, 15], // 这是第二个 dataItem
               [16, 39, 58, 16], // 这是第二个 dataItem
             ]
-          }
-          //     {
-          //     type: 'custom',
-          //     encode: {
-          //       // data 中『维度1』和『维度2』对应到 X 轴
-          //       x: [1, 2],
-          //       // data 中『维度0』对应到 Y 轴
-          //       y: [0, 3]
-          //     },
-          //     renderItem: function (params, api) {
-          //       var categoryIndex = api.value(0)
-          //       var categoryIndex2 = api.value(3)
-          //       // 这里使用 api.coord(...) 将数值在当前坐标系中转换成为屏幕上的点的像素值。
-          //       var startPoint = api.coord([api.value(1), categoryIndex])
-          //       var endPoint = api.coord([api.value(2), categoryIndex2])
-          //       // 这里使用 api.size(...) 获得 Y 轴上数值范围为 1 的一段所对应的像素长度。
-          //       var height = 20
+          },
+              {
+              type: 'custom',
+              encode: {
+                // data 中『维度1』和『维度2』对应到 X 轴
+                x: [1, 2],
+                // data 中『维度0』对应到 Y 轴
+                y: [0, 3]
+              },
+              renderItem: function (params, api) {
+                var categoryIndex = api.value(0)
+                var categoryIndex2 = api.value(3)
+                // 这里使用 api.coord(...) 将数值在当前坐标系中转换成为屏幕上的点的像素值。
+                var startPoint = api.coord([api.value(1), categoryIndex])
+                var endPoint = api.coord([api.value(2), categoryIndex2])
+                // 这里使用 api.size(...) 获得 Y 轴上数值范围为 1 的一段所对应的像素长度。
+                var height = 20
 
-          //       return {
-          //         type: 'group', //当需要多个自定义拼接时，需要用group，此案例是文字和图形的拼接
-          //         children: [
-          //           {
-          //             // 表示这个图形元素是矩形。还可以是 'circle', 'sector', 'polygon' 等等。
-          //             type: 'line',
-          //             // shape 属性描述了这个矩形的像素位置和大小。
-          //             // 其中特殊得用到了 echarts.graphic.clipRectByRect，意思是，
-          //             // 如果矩形超出了当前坐标系的包围盒，则剪裁这个矩形。
-          //             shape: {
-          //               x1: startPoint[0],
-          //               y1: startPoint[1],
-          //               x2: endPoint[0],
-          //               y2: endPoint[1],
-          //               percent: 1
-          //             },
-          //             style: {
-          //               stroke: 'blue',
-          //               lineWidth: 1
-          //             }
-          //           }
-          //         ]
-          //       }
-          //       // 这里返回为这个 dataItem 构建的图形元素定义。
-          //     },
-          //     data: [
-          //       [4, b/18 + 10, 39, 5], // 这是第二个 dataItem
-          //       [4, b/18 + 10, 39, 7], // 这是第二个 dataItem
-          //       [7, 39 + b/18 + 10, 59, 3], // 这是第二个 dataItem
-          //       [4, b/18 + 10, 39, 6], // 这是第二个 dataItem
-          //       [4, b/18 + 10, 39, 1], // 这是第二个 dataItem
-          //       [1, 39 + b/18 + 10, 59, 3], // 这是第二个 dataItem
-          //       [5, 39 + b/18 + 10, 59, 3] // 这是第三个 dataItem
-          //     ]
-          //   },
+                return {
+                  type: 'group', //当需要多个自定义拼接时，需要用group，此案例是文字和图形的拼接
+                  children: [
+                  {
+                    type: 'line',
+                    silent: true,
+                    shape: {
+                     x1: startPoint[0],
+                      y1: startPoint[1],
+                      x2: endPoint[0],
+                      y2: endPoint[1],
+                    // cpx1:0,
+                    // cpx2:0,
+                    // cpy1:0,
+                    // cpy2:90 ,
+                      percent: 1
+                    },
+                    style: {
+                      stroke: '#3370FF',
+                      fill: '#fff',
+                      lineWidth: 0.2
+                    }
+                  }
+                ]
+                }
+                // 这里返回为这个 dataItem 构建的图形元素定义。
+              },
+              data: [
+                [4, 18 + 10, 39, 5], // 这是第二个 dataItem
+                [4, 18 + 10, 39, 7], // 这是第二个 dataItem
+                [7, 39 + 18 + 10, 59, 3], // 这是第二个 dataItem
+                [4, 18 + 10, 39, 6], // 这是第二个 dataItem
+                [4, 18 + 10, 39, 1], // 这是第二个 dataItem
+                [1, 39 + 18 + 10, 59, 3], // 这是第二个 dataItem
+                [5, 39 + 18 + 10, 59, 3] // 这是第三个 dataItem
+              ]
+            },
         ]
       }
       myChart.setOption(option, true)
