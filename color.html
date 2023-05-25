@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>取色器 EyeDropper API</title>
+  </head>
+  <body>
+    <button id="btn">开始取色</button>
+    <script>
+      if ('EyeDropper' in window) {
+        console.log('取色器可以使用')
+        const eyeDropper = new EyeDropper()  // 初始化一个EyeDropper对象
+        const btn = document.getElementById('btn')
+        btn.addEventListener('click', async () => { // 监听按钮的点击事件
+          try {
+            const result = await eyeDropper.open() // 开始拾取颜色
+            console.log(result)
+            const colorHexValue = result.sRGBHex
+            console.log(colorHexValue)  // 打印出颜色的值
+          } catch (e) {
+            console.log('用户取消了取色')
+          }
+        })
+      }
+    </script>
+  </body>
+</html>

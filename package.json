@@ -28,9 +28,11 @@
     "snabbdom": "^3.5.1",
     "sortablejs": "^1.15.0",
     "svg-sprite-loader": "^6.0.11",
+    "three": "^0.148.0",
     "tinymce": "^5.1.0",
     "useless-files-webpack-plugin": "^1.0.1",
     "vue": "^2.6.14",
+    "vue-fullscreen": "^2.6.1",
     "vue-grid-layout": "^2.3.12",
     "vuedraggable": "^2.24.3"
   },
