@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div style="width: 600px;height: 400px;background: red" class="col-3">
-      <h3>Draggable 1</h3>
+      <h3>Draggable 12</h3>
       <draggable class="list-group" :list="list1" group="people" @change="log">
         <div
           class="list-group-item"
