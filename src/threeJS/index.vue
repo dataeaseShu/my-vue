@@ -19,7 +19,7 @@ export default {
     const material = new THREE.MeshLambertMaterial();
 
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(0, 10, 0);
+    mesh.position.set(0, 1000, 0);
 
     // for (let i = 0; i < 10; i++) {
     //   for (let j = 0; j < 10; j++) {
@@ -38,7 +38,7 @@ export default {
 
     const meshPhong = new THREE.Mesh(geometry, phong);
 
-    meshPhong.position.set(0, 100, 0);
+    meshPhong.position.set(0, 1000, 0);
     sence.add(meshPhong);
 
     sence.add(mesh);
@@ -62,6 +62,42 @@ export default {
     sence.add(PointLightHelper);
 
     light.position.set(400, 100, 0);
+    //创建一个空的几何体对象
+    const bufferGeometry = new THREE.BufferGeometry();
+    const vertices = new Float32Array([
+      0,
+      0,
+      0, //顶点1坐标
+      50,
+      0,
+      0, //顶点2坐标
+      0,
+      100,
+      0, //顶点3坐标
+      0,
+      0,
+      10, //顶点4坐标
+      0,
+      0,
+      100, //顶点5坐标
+      50,
+      0,
+      10, //顶点6坐标
+    ]);
+    const bufferAttritute = new THREE.BufferAttribute(vertices, 3)
+    bufferGeometry.attributes.position = bufferAttritute
+    const materialBuffer = new THREE.PointsMaterial({
+        color: 0xffff00,
+        size: 10.0 //点对象像素尺寸
+    }); 
+
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffff00 })
+    const lines = new THREE.Line(bufferGeometry, lineMaterial)
+
+    const points = new THREE.Points(bufferGeometry, materialBuffer)
+
+    sence.add(points)
+    sence.add(lines)
 
     sence.add(light);
 

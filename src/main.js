@@ -2,7 +2,7 @@ import Vue from 'vue'
 // import App from './vueGridLayout/drag.vue' // coustomDrag
 // import App from './vueGridLayout/coustomDrag.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './customComponent/drawer.vue' // coustomDrag src/customComponent/messages.vue
-import App from './threeJS/color.vue' // coustomDrag src/customComponent/messages.vue
+import App from './threeJS/index.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './vueGridLayout/dragEvent.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './fanyi/index.vue' // coustomDrag src/customComponent/messages.vue
 // import App from './upload/cardPlugin.vue' // coustomDrag src/customComponent/messages.vue
